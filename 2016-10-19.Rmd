@@ -1,0 +1,151 @@
+---
+title: "STA257"
+author: "Neil Montgomery | HTML is official | PDF versions good for in-class use only"
+date: "Last edited: `r format(Sys.time(), '%Y-%m-%d %H:%M')`"
+output: 
+  ioslides_presentation: 
+    css: '../styles.css' 
+    widescreen: true 
+    transition: 0.001
+header-includes:
+- \usepackage{cancel}
+---
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand\P[1]{P{\left(#1\right)}}
+
+
+## time to first event of a Poisson process { .build }
+
+Let's say we have a Poisson process $N(t)$ with rate $\lambda$. The time of the first event is random. Call this time $X$.
+
+What can we say about $X$? Can we completely describe its distribution? 
+
+Yes, because $F(x) = 1 - P(X > x)$ and $\{X > x\}$ *is exactly equivalent to* $\{N(x) = 0\}$, so we can derive the cdf for $X$. 
+
+$$F(x) = P(X \le x) = \begin{cases}
+0 &: x \le 0\\
+1 - e^{-\lambda x} &: x > 0\\
+\end{cases}.$$
+So the density is:
+$$f(x) = F'(x) = \begin{cases}
+\lambda e^{-\lambda x} &: x > 0\\
+0 &: \text{otherwise}.
+\end{cases}$$
+
+## the exponential distributions
+
+In this case we say $X$ has an exponential distribution with (rate) parameter $\lambda$, or $X \sim\text{Exp}(\lambda)$.
+
+Free picture for Exp$(1)$ density:
+
+```{r, echo=FALSE, fig.align = 'center', fig.height=4}
+plot(c(-1, 0), c(0,0), xlim=c(-1,6), ylim=c(-0.1, 1.2), type='l', ylab="f(x)", xlab="x")
+lines(0:6000/1000, dexp(0:6000/1000, 1))
+```
+
+## what should we expect of a Poisson waiting time? { .build }
+
+The Poisson process is the continuous time analogy of the Bernoulli process. Both intended to be "completely random" (process is memoryless and counts over disjoint intervals are independent.)
+
+The exponential distributions, like the geometric, turn out to be memoryless.
+
+But wait! There's more!
+
+Theorem: The exponential distributions are the *only* continuous, memoryless distributions.
+
+Proof: ...
+
+## exponential example
+
+The exponential distributions are commonly used as a model of "completely random failure". Examples include complex systems, electronic devices, and many others.
+
+Suppose a haul truck diesel engine has a failure time $X$ modeled using an exponential distribution. The rate is 1 failure every 5 years.
+
+What is the probability that an engine will survive more than 3 years?
+
+What is the probability that, out of a fleet of $n=20$ engines, more than half will survive more than 3 years? (Assume independent failures.)
+
+## time to $n^{th}$ event of a Poisson process
+
+Let's say we have a Poisson process $N(t)$ with rate $\lambda$. The time of the ~~first~~ $n^{th}$ event is random. Call this time $X$.
+
+What can we say about $X$? Can we completely describe its distribution? 
+
+Yes, because $F(x) = 1 - P(X > x)$, and $\{X > x\}$ *is exactly equivalent to*  $\{N(x) = n-1\},$ so we can derive the cdf for $X$. 
+
+$$F(x) = P(X \le x) = \begin{cases}
+0 &: x \le 0\\
+1 - \frac{[\lambda x]^{n-1}}{(n-1)!}e^{-\lambda x} &: x > 0\\
+\end{cases}.$$
+So the density is:
+$$f(x) = F'(x) = \begin{cases}
+\frac{\lambda^n}{(n-1)!} x^{n-1} e^{-\lambda x} &: x > 0\\
+0 &: \text{otherwise}.
+\end{cases}$$
+
+## generalization: the gamma distributions
+
+Definition: the *gamma function* is defined as:
+$$\Gamma(\alpha) = \int_0^\infty u^{\alpha-1}e^{-u}\,du, \qquad \alpha > 0.$$
+Many interesting properties, including $\Gamma(n) = (n-1)!$ for integer $n\ge 1$ (exercise 49 in book.)
+
+The following function is a valid density for $\alpha > 0$ and $\lambda > 0$:
+$$f(x) = \begin{cases}
+\frac{\lambda^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\lambda x}
+&: x > 0\\
+0 &: \text{ otherwise}.\end{cases}$$
+Proof: ...
+
+## free pictures of some Gamma($\alpha$, 1) densities
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5.5, fig.align='center', fig.width=10}
+
+library(dplyr)
+library(ggplot2)
+
+x <- seq(0,12, length.out = 1000)
+
+g_d <- rbind(data_frame(alpha=0.5, x, 'f(x)' = dgamma(x, 0.5, 1)),
+      data_frame(alpha = 1, x, 'f(x)' = dgamma(x, 1, 1)),
+      data_frame(alpha = 2, x, 'f(x)' = dgamma(x, 2, 1)),
+      data_frame(alpha = 5, x, 'f(x)' = dgamma(x, 5, 1)))
+
+g_d$alpha <- factor(g_d$alpha)
+
+ggplot(g_d, aes(x=x, y=`f(x)`, color = alpha)) + 
+  geom_line() + ylim(0,1.2) + theme_bw()
+```
+
+
+## gamma distribution trivia
+
+We can say $X$ has a gamma distribution with "shape parameter"" $\alpha$ and "rate parameter" $\lambda$, or $X\sim\text{Gamma}(\alpha,\lambda)$.
+
+Lots of things seem to (empirically) have gamma distributions: insurance claim amounts, crack growth models, earthquake times, neuron spike, etc.
+
+Special cases: $\alpha = 1$ is exponential.
+
+$\alpha = n$ positive integer gives the *waiting time until the $n$th event in a Poisson process* (also called "Erlang$(n,\lambda)$")
+
+$\alpha = n/2$ and $\lambda = 1/2$ is called $\chi^2_n$ and has applications in statistics. (More later.)
+
+## another fun Poisson process fact { .build }
+
+Suppose at some fixed time $t$ of a Poisson process we know $N(t)=1$. In other words, exactly one "event" occured at some time before $t$. 
+
+This occurrence time is a random variable. Call it $X$. What is its distribution?
+
+Let's try to derive its cdf:
+
+$$F(x) = P(X \le x) = \begin{cases}
+0 &: x < 0\\
+??? &: 0 \le x \le t\\
+1 &: x \ge t\end{cases}$$
+
+## exercise
+
+Suppose at some fixed time $t>0$ of a Poisson process we know $N(t)=n$. 
+
+Fix another time $s$ with $0 < s < t$. 
+
+Find the distribution of the number $X$ of events that occurred inside $[0,s]$.

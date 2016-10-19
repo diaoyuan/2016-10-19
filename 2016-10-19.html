@@ -89,11 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-<<<<<<< HEAD
-            <p style="margin-top: 6px; margin-left: -2px;">Last edited: 2016-10-18 20:37</p>
-=======
-            <p style="margin-top: 6px; margin-left: -2px;">Last edited: 2016-10-18 17:02</p>
->>>>>>> e92c3a46ec1d0975d78f6f2d46f238eeb45b3e3b
+            <p style="margin-top: 6px; margin-left: -2px;">Last edited: 2016-10-19 13:25</p>
           </hgroup>
   </slide>
 
@@ -103,7 +99,7 @@
 
 <p>What can we say about \(X\)? Can we completely describe its distribution?</p>
 
-<p>Yes, because \(F(x) = 1 - P(X &gt; x)\) and \(\{X &gt; x\}\) <em>is exactly equivalent to</em> \(\{N(x) = 0\}\), so we can derive the cdf for \(X\).</p>
+<p>Yes, because \(F(x) = 1 - P(X &gt; x)\) and \(\{X &gt; x\}\) <em>is exactly equivalent to</em> \(\{N(x) \le 0\}\), so we can derive the cdf for \(X\).</p>
 
 <p>\[F(x) = P(X \le x) = \begin{cases}
 0 &amp;: x \le 0\\
@@ -149,12 +145,12 @@
 
 <p>What can we say about \(X\)? Can we completely describe its distribution?</p>
 
-<p>Yes, because \(F(x) = 1 - P(X &gt; x)\), and \(\{X &gt; x\}\) <em>is exactly equivalent to</em> \(\{N(x) = n-1\},\) so we can derive the cdf for \(X\).</p>
+<p>Yes, because \(F(x) = 1 - P(X &gt; x)\), and \(\{X &gt; x\}\) <em>is exactly equivalent to</em> \(\{N(x) \le n-1\},\) so we can derive the cdf for \(X\).</p>
 
 <p>\[F(x) = P(X \le x) = \begin{cases}
 0 &amp;: x \le 0\\
-1 - \frac{[\lambda x]^{n-1}}{(n-1)!}e^{-\lambda x} &amp;: x &gt; 0\\
-\end{cases}.\] So the density is: \[f(x) = F&#39;(x) = \begin{cases}
+1 - \sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!}e^{-\lambda x} &amp;: x &gt; 0\\
+\end{cases}.\] So the density is (after some fussy work): \[f(x) = F&#39;(x) = \begin{cases}
 \frac{\lambda^n}{(n-1)!} x^{n-1} e^{-\lambda x} &amp;: x &gt; 0\\
 0 &amp;: \text{otherwise}.
 \end{cases}\]</p>
@@ -195,7 +191,6 @@
 <p>\[F(x) = P(X \le x) = \begin{cases}
 0 &amp;: x &lt; 0\\
 ??? &amp;: 0 \le x \le t\\
-<<<<<<< HEAD
 1 &amp;: x \ge t\end{cases}\]</p>
 
 </article></slide><slide class=''><hgroup><h2>exercise</h2></hgroup><article  id="exercise">
@@ -204,10 +199,18 @@
 
 <p>Fix another time \(s\) with \(0 &lt; s &lt; t\).</p>
 
-<p>Find the distribution of the number \(X\) of events that occurred inside \([0,s]\).</p></article></slide>
-=======
-1 &amp;: x \ge t\end{cases}\]</p></article></slide>
->>>>>>> e92c3a46ec1d0975d78f6f2d46f238eeb45b3e3b
+<p>Find the distribution of the number \(X\) of events that occurred inside \([0,s]\).</p>
+
+</article></slide><slide class=''><hgroup><h2>(not done in class) \(n^{th}\) event density fussy work</h2></hgroup><article  id="not-done-in-class-nth-event-density-fussy-work" class="small">
+
+<p>\[\begin{align}
+\frac{d}{dx} \left(1 - \sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!}e^{-\lambda x}\right) &amp;= - \frac{d}{dx} \left(e^{-\lambda x}\sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!}\right)\\
+&amp;= -\left(-\lambda e^{-\lambda x}\sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!} +
+e^{-\lambda x}\sum_{i=1}^{n-1} \frac{\lambda [\lambda x]^{i-1}}{(i-1)!} \right)\\
+&amp;= \lambda e^{-\lambda x} \left(\sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!} - \sum_{i=1}^{n-1} \frac{ [\lambda x]^{i-1}}{(i-1)!} \right)\\
+&amp;=\lambda e^{-\lambda x} \left(\sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!} - \sum_{i=0}^{n-2} \frac{ [\lambda x]^{i}}{(i)!} \right)\\
+&amp;=\frac{\lambda^n}{(n-1)!}x^{n-1}e^{-\lambda x}
+\end{align}\]</p></article></slide>
 
 
   <slide class="backdrop"></slide>

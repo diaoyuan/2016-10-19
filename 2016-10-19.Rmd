@@ -20,7 +20,7 @@ Let's say we have a Poisson process $N(t)$ with rate $\lambda$. The time of the 
 
 What can we say about $X$? Can we completely describe its distribution? 
 
-Yes, because $F(x) = 1 - P(X > x)$ and $\{X > x\}$ *is exactly equivalent to* $\{N(x) = 0\}$, so we can derive the cdf for $X$. 
+Yes, because $F(x) = 1 - P(X > x)$ and $\{X > x\}$ *is exactly equivalent to* $\{N(x) \le 0\}$, so we can derive the cdf for $X$. 
 
 $$F(x) = P(X \le x) = \begin{cases}
 0 &: x \le 0\\
@@ -71,13 +71,13 @@ Let's say we have a Poisson process $N(t)$ with rate $\lambda$. The time of the 
 
 What can we say about $X$? Can we completely describe its distribution? 
 
-Yes, because $F(x) = 1 - P(X > x)$, and $\{X > x\}$ *is exactly equivalent to*  $\{N(x) = n-1\},$ so we can derive the cdf for $X$. 
+Yes, because $F(x) = 1 - P(X > x)$, and $\{X > x\}$ *is exactly equivalent to*  $\{N(x) \le n-1\},$ so we can derive the cdf for $X$. 
 
 $$F(x) = P(X \le x) = \begin{cases}
 0 &: x \le 0\\
-1 - \frac{[\lambda x]^{n-1}}{(n-1)!}e^{-\lambda x} &: x > 0\\
+1 - \sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!}e^{-\lambda x} &: x > 0\\
 \end{cases}.$$
-So the density is:
+So the density is (after some fussy work):
 $$f(x) = F'(x) = \begin{cases}
 \frac{\lambda^n}{(n-1)!} x^{n-1} e^{-\lambda x} &: x > 0\\
 0 &: \text{otherwise}.
@@ -142,7 +142,6 @@ $$F(x) = P(X \le x) = \begin{cases}
 ??? &: 0 \le x \le t\\
 1 &: x \ge t\end{cases}$$
 
-<<<<<<< HEAD
 ## exercise
 
 Suppose at some fixed time $t>0$ of a Poisson process we know $N(t)=n$. 
@@ -150,7 +149,14 @@ Suppose at some fixed time $t>0$ of a Poisson process we know $N(t)=n$.
 Fix another time $s$ with $0 < s < t$. 
 
 Find the distribution of the number $X$ of events that occurred inside $[0,s]$.
-=======
 
+## (not done in class) $n^{th}$ event density fussy work { .small }
 
->>>>>>> e92c3a46ec1d0975d78f6f2d46f238eeb45b3e3b
+$$\begin{align}
+\frac{d}{dx} \left(1 - \sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!}e^{-\lambda x}\right) &= - \frac{d}{dx} \left(e^{-\lambda x}\sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!}\right)\\
+&= -\left(-\lambda e^{-\lambda x}\sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!} +
+e^{-\lambda x}\sum_{i=1}^{n-1} \frac{\lambda [\lambda x]^{i-1}}{(i-1)!} \right)\\
+&= \lambda e^{-\lambda x} \left(\sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!} - \sum_{i=1}^{n-1} \frac{ [\lambda x]^{i-1}}{(i-1)!} \right)\\
+&=\lambda e^{-\lambda x} \left(\sum_{i=0}^{n-1} \frac{[\lambda x]^{i}}{i!} - \sum_{i=0}^{n-2} \frac{ [\lambda x]^{i}}{(i)!} \right)\\
+&=\frac{\lambda^n}{(n-1)!}x^{n-1}e^{-\lambda x}
+\end{align}$$

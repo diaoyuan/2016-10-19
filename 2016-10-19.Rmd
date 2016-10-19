@@ -142,6 +142,7 @@ $$F(x) = P(X \le x) = \begin{cases}
 ??? &: 0 \le x \le t\\
 1 &: x \ge t\end{cases}$$
 
+<<<<<<< HEAD
 ## exercise
 
 Suppose at some fixed time $t>0$ of a Poisson process we know $N(t)=n$. 
@@ -149,3 +150,7 @@ Suppose at some fixed time $t>0$ of a Poisson process we know $N(t)=n$.
 Fix another time $s$ with $0 < s < t$. 
 
 Find the distribution of the number $X$ of events that occurred inside $[0,s]$.
+=======
+
+
+>>>>>>> e92c3a46ec1d0975d78f6f2d46f238eeb45b3e3b
